@@ -1,7 +1,7 @@
 
 # API Gerenciador de Tarefas
 
-Esse projeto é um desafio prático proposto pela Rocketseat na formação Full-Stack, que consiste no desemvolvimento de uma API para um gerenciador de tarefas.
+Esse projeto é um desafio prático proposto pela Rocketseat na formação Full-Stack, que consiste no desenvolvimento de uma API para um gerenciador de tarefas.
 
 
 ## Referência
