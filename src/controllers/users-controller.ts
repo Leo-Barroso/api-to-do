@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { prisma } from "@/database/prisma";
 import { z } from "zod"
 import { hash } from "bcrypt"

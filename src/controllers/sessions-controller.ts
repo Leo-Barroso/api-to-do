@@ -16,12 +16,8 @@ class SessionsController{
         const user = await prisma.user.findFirst({
             where: {email}
         })
-        if(!user) {
-            throw new AppError("Invalid e-mail or password", 401)
-        }
-        const passwordMatched = await compare(password, user.password)
-        if(!passwordMatched) {
-            throw new AppError("Invalid e-mail or password", 401)
+        if (!user || !(await compare(password, user.password))) {
+            throw new AppError("Invalid e-mail or password", 401);
         }
         const { secret, expiresIn} = authConfig.jwt
         const token = sign({ role: user.role ?? "member"}, secret, {
