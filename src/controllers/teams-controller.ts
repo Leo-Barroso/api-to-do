@@ -68,12 +68,6 @@ class TeamsController {
     }
 
     async delete(request: Request, response: Response) {
-
-        console.log(request)
-
-        if(!request.params.id) {
-            return response.json({ message: "ID é obrigatório."})
-        }
         
         const paramsSchema = z.object({
             id: z.string().uuid()
