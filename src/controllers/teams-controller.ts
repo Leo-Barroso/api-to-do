@@ -56,6 +56,13 @@ class TeamsController {
         try {
             const { id } = paramsSchema.parse(request.params)
             const data = bodySchema.parse(request.body)
+            const findTask = await prisma.teams.findUnique({
+                where: { id }
+            })
+
+            if(findTask?.id != id) {
+                return response.status(404).json({ message: "ID não encontrado."})
+            }
 
             const teams = await prisma.teams.update({
                 where: { id },
@@ -63,11 +70,12 @@ class TeamsController {
             })
             return response.status(200).json({ message: "Registro atualizado com sucesso.", teams})
         } catch (error) {
-            return response.status(404).json({ message: "ID não encontrado."})
+            return response.status(400).json({ message: "Dados inválidos."})
         }
     }
 
     async delete(request: Request, response: Response) {
+
         
         const paramsSchema = z.object({
             id: z.string().uuid()
@@ -75,12 +83,21 @@ class TeamsController {
 
         try {
             const { id } = paramsSchema.parse(request.params)
+
+            const findTask = await prisma.teams.findUnique({
+                where: { id }
+            })
+
+            if(findTask?.id != id) {
+                return response.status(404).json({ message: "ID não encontrado"})
+            }
+
             await prisma.teams.delete({
                 where: { id }
             })
             return response.status(200).json({ message: "Registro removido com sucesso."}) 
         } catch (error) {
-            return response.status(404).json({ message: "ID não encontrado"})
+            return response.status(400).json({ message: "Dados inválidos."})
         }
     }
 }
