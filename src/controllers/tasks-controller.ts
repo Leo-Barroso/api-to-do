@@ -38,18 +38,22 @@ class TasksController {
             assignedTo: z.string(),
             teamId: z.string()
         })
-        const { title, description, status, priority, assignedTo, teamId } = bodySchema.parse(request.body)
-        const task = await prisma.tasks.create({
-            data: {
-                title,
-                description,
-                status,
-                priority,
-                assignedTo,
-                teamId
-            }
-        })
-        return response.status(201).json({ message: "Tarefa criada com sucesso.", task})
+        try {
+            const { title, description, status, priority, assignedTo, teamId } = bodySchema.parse(request.body)
+            const task = await prisma.tasks.create({
+                data: {
+                    title,
+                    description,
+                    status,
+                    priority,
+                    assignedTo,
+                    teamId
+                }
+            })
+            return response.status(201).json({ message: "Tarefa criada com sucesso.", task})
+        } catch (error) {
+            return response.status(400).json({ message: "Dados inválidos."})
+        }
     }
 
     async update(request: Request, response: Response) {
@@ -68,13 +72,25 @@ class TasksController {
             const { id } = paramsSchema.parse(request.params)
             const data = bodySchema.parse(request.body)
 
+            const findTask = await prisma.tasks.findUnique({
+                where: { id }
+            })
+
+            if(findTask?.id != id) {
+                return response.status(404).json({ message: "ID não encontrado"})        
+            }
+
+            if(findTask.status === TaskStatus.completed) {
+                return response.status(400).json({ message: "Não é permitido alterar registros com status [completed]"})        
+            }
+
             const task = await prisma.tasks.update({
                 where: { id },
                 data
             })
             return response.status(200).json({ message: "Registro atualizado com sucesso.", task})
         } catch (error) {
-            return response.status(400).json({ message: "ID não encontrado"})        
+            return response.status(400).json({ message: "Dados inválidos."})        
         }
     }
 
@@ -85,11 +101,15 @@ class TasksController {
 
         try {
             const { id } = paramsSchema.parse(request.params)
-            const task = await prisma.tasks.findUnique({
+            const findTask = await prisma.tasks.findUnique({
                 where: { id }
             })
 
-            if(task?.status === TaskStatus.completed) {
+            if(findTask?.id != id) {
+                return response.status(404).json({ message: "ID não encontrado."})
+            }
+
+            if(findTask?.status === TaskStatus.completed) {
                 return response.status(400).json({ message: "Não é permitido remover registros com status [completed]" });
             }
 
@@ -98,7 +118,7 @@ class TasksController {
             })
             return response.status(200).json({ message: "Registro removido com sucesso."})
         } catch (error) {
-            return response.status(404).json({ message: "ID não encontrado."})
+            return response.status(400).json({ message: "Dados inválidos."})
         }
     }
 
