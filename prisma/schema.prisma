@@ -30,6 +30,7 @@ model User {
   email String
   password String
   role UserRole @default(member)
+  tasks Tasks[]
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
   @@map("users")
@@ -39,7 +40,22 @@ model Teams {
   id String @id @default(uuid())
   name String
   description String
+  tasks Tasks[]
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
   @@map("teams")
+}
+
+model Tasks {
+  id String @id @default(uuid())
+  title String
+  description String
+  status TaskStatus
+  priority TaskPriority
+  assignedTo String @map("assigned_to")
+  teamId String @map("team_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  team Teams @relation(fields: [teamId], references: [id])
+  user User @relation(fields: [assignedTo], references: [id])
 }
