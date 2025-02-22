@@ -60,7 +60,7 @@ class TeamsController {
                 where: { id }
             })
 
-            if(findTask?.id != id) {
+            if(!findTask) {
                 return response.status(404).json({ message: "ID não encontrado."})
             }
 
@@ -76,7 +76,6 @@ class TeamsController {
 
     async delete(request: Request, response: Response) {
 
-        
         const paramsSchema = z.object({
             id: z.string().uuid()
         })
@@ -88,7 +87,7 @@ class TeamsController {
                 where: { id }
             })
 
-            if(findTask?.id != id) {
+            if(!findTask) {
                 return response.status(404).json({ message: "ID não encontrado"})
             }
 
