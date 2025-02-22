@@ -76,7 +76,7 @@ class TasksController {
                 where: { id }
             })
 
-            if(findTask?.id != id) {
+            if(!findTask) {
                 return response.status(404).json({ message: "ID não encontrado"})        
             }
 
@@ -105,7 +105,7 @@ class TasksController {
                 where: { id }
             })
 
-            if(findTask?.id != id) {
+            if(!findTask) {
                 return response.status(404).json({ message: "ID não encontrado."})
             }
 
