@@ -15,25 +15,25 @@ Esse projeto é um desafio prático proposto pela Rocketseat na formação Full-
 
 ## Inicialização
 
-Para iniciar o servidor, rode
-
-```bash
-  npm run dev
-```
-
-Para iniciar o container Docker, rode
+Para iniciar o container Docker
 
 ```bash
   docker-compose up -d
 ```
 
-Para criar as tabelas com o Prisma, rode
+Para criar as tabelas com o Prisma
 
 ```bash
   npx prisma migrate dev
 ```
 
-Para iniciar o prisma, rode
+Para iniciar o servidor
+
+```bash
+  npm run dev
+```
+
+Para iniciar o prisma
 
 ```bash
   npx prisma studio
