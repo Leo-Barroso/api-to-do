@@ -9,8 +9,8 @@ Esse projeto é um desafio prático proposto pela Rocketseat na formação Full-
 
 ## Requisitos necessários
 
-- Node
-- Docker
+- Node v20.18.0
+- Docker 27.3.1
 
 
 ## Inicialização
