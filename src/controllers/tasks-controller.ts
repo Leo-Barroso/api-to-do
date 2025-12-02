@@ -50,7 +50,7 @@ class TasksController {
                     teamId
                 }
             })
-            return response.status(201).json({ message: "Tarefa criada com sucesso.", task})
+            return response.status(201).json({ message: "Tarefa criada com sucesso."})
         } catch (error) {
             return response.status(400).json({ message: "Dados inválidos."})
         }
